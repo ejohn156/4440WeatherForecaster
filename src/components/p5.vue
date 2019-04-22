@@ -27,8 +27,8 @@ export default {
         },
     },
     props: {
-        currentWeather: Object,
-        forecastArray: Object
+        currentWeather: [Object],
+        forecastArray: [Object]
     },
     components:{
         "vue-p5": vueP5

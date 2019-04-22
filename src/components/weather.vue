@@ -10,11 +10,13 @@
                 </v-select>
 
                 <div v-if="searchMethod == 'City'">
+                    <div>
                     <v-text-field style="margin-left: 3%;margin-right: 3%" v-model="location" label="Enter A City"></v-text-field>
-                </div>
-                <div v-if="searchMethod == 'City'">
+                    </div>
+                <div>
                     <v-btn flat style="margin-left: 3%;margin-right: 3%;background-color:gold;color:#1b5e20;"
                         v-on:click="changeCity($event)"><b>Get Weather</b></v-btn>
+                </div>
                 </div>
                 <div v-if="searchMethod == 'Voice'">
                       <lex/>
