@@ -21,7 +21,7 @@ export default {
     data: function(){return{weatherData: []}},
     methods: {
         setup(sketch) {
-            sketch.createCanvas(700, 500);
+            sketch.createCanvas(900, 500);
             sketch.background(0);
             
         },
