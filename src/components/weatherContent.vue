@@ -23,7 +23,7 @@
           <br>
         </v-flex>
         <!-- <v-flex>
-          <giphy style="margin-top:2%;margin-right:2%" v-bind:desc="weather.weather.description"/>
+          <giphy style="margin-top:2%;margin-right:2%" v-bind:desc="this.icon"/>
         </v-flex> -->
       </v-layout>
     </v-responsive>
@@ -31,6 +31,7 @@
 </template>
 <script>
 // import giphy from "./giphy";
+import axios from "axios"
 export default {
   name: "WeatherContent",
 
@@ -48,6 +49,12 @@ export default {
             gradient: 'to top, #FFFF00, #FFD700'
           }
   },
+  created(){
+    var giphySearch = 'https://api.giphy.com/v1/gifs/search?q='+this.desc+'&api_key=LLtGzlJAN6176Sd5eDEJ6rspOnq1maJo&limit=1'
+       
+       axios.get(giphySearch).then((response => this.icon = response.data.data[0].images.original.url))
+  }
+  
 };
 </script>
 <style>

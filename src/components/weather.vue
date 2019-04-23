@@ -64,7 +64,14 @@
                                     <!-- component for this weeks forecast carousel -->
                                     <!-- component for next weeks forecast carousel-->
                                     <v-flex v-for="(weather,i) in page" :key="i">
-                                    <forecast v-bind:forecast="weather"/>
+                                    <v-card>
+                                        <v-card-title primary-title>
+                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <p>Temp: {{weather.temp}}</p>
+                                        </v-card-text>
+                                    </v-card>
                                     </v-flex>
                                 </v-carousel-item>
                             </v-carousel>
@@ -76,7 +83,14 @@
                                     <!-- component for this weeks forecast carousel -->
                                     <!-- component for next weeks forecast carousel-->
                                     <v-flex v-for="(weather,i) in page" :key="i">
-                                    <forecast v-bind:forecast="weather"/>
+                                    <v-card>
+                                        <v-card-title primary-title>
+                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <p>Temp: {{weather.temp}}</p>
+                                        </v-card-text>
+                                    </v-card>
                                     </v-flex>
                                 </v-carousel-item>
                             </v-carousel>
@@ -104,14 +118,12 @@ import lex from "./lex"
 import axios from "axios"
 import sim from './p5'
 import WeatherContent from './weatherContent'
-import forecast from './forecast'
 export default {
   name: 'weather',
   components :{
     sim,
     lex,
-    WeatherContent,
-    forecast
+    WeatherContent
   },
   data: function()  {
     return{
@@ -122,8 +134,8 @@ export default {
     searchedLocation: "Charlotte, US",
     currentWeather: [],
     forecastArray: [],
-    thisWeek: [],
-    nextWeek: [],
+    // thisWeek: [],
+    // nextWeek: [],
     forecastLocation: "",
     searchOptions: ["Current", "Forecast"],
     searchMethodOptions: ["City", "Voice"],
@@ -177,9 +189,9 @@ export default {
         })
         
       })
-      setTimeout(() => {
-            this.populateWeeks()
-        }, 200);
+    //   setTimeout(() => {
+    //         this.populateWeeks()
+    //     }, 200);
     },
     getWeatherInfo: function () {
       
@@ -251,9 +263,10 @@ computed: {
         cardPages () {
           let pageSize = 3
           const pages = []
-          for (let i = 0; i < this.thisWeek.length; i += 2) {
-              if(i < this.thisWeek.length - 1){
-            pages.push(this.thisWeek.slice(i, i + pageSize))
+          var thisWeek = this.forecastArray.slice(0,7)
+          for (let i = 0; i < thisWeek.length; i += 2) {
+              if(i < thisWeek.length - 1){
+            pages.push(thisWeek.slice(i, i + pageSize))
               }
             // if (pageSize < 3) {
             //
@@ -263,10 +276,11 @@ computed: {
         },
         nextPages () {
           let pageSize = 3
+          var nextWeek = this.forecastArray.slice(7,14)
           const pages = []
-          for (let i = 0; i < this.nextWeek.length; i += 2) {
-              if(i < this.nextWeek.length - 1){
-            pages.push(this.nextWeek.slice(i, i + pageSize))
+          for (let i = 0; i < nextWeek.length; i += 2) {
+              if(i < nextWeek.length - 1){
+            pages.push(nextWeek.slice(i, i + pageSize))
               }
             // if (pageSize < 3) {
             //
