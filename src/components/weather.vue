@@ -55,26 +55,50 @@
                         <WeatherContent v-bind:weather="this.currentWeather[0]" v-bind:location="this.location"/>
                     </v-flex>
                     <v-flex pa-6 v-if="this.searchType === 'Forecast'" style="text-align:center">
-                        <WeatherContent v-bind:weather="this.forecastArray[selectedForecast]" v-bind:location="this.location"/>
-                        <v-layout row>
-                            <v-expansion-panel expand flat class="transparent elevation-0 vuse-expansion">
-                                <v-flex pa-1 v-for="(weather,index) in forecastArray" v-bind:key="index">
+                        <!-- <WeatherContent v-bind:weather="this.forecastArray[selectedForecast]" v-bind:location="this.location"/> -->
+                        <!-- <v-layout row> -->
+                            <h1>This Week</h1>
+                            <br>
+                            <v-carousel style="margin-top:2%">
+                                <v-carousel-item v-for="(page,index) in cardPages" v-bind:key="index">
                                     <!-- component for this weeks forecast carousel -->
                                     <!-- component for next weeks forecast carousel-->
+                                    <v-flex v-for="(weather,i) in page" :key="i">
                                     <v-card>
                                         <v-card-title primary-title>
-                                            <h3>{{ searchedLocation }} : {{weather.datetime}}</h3>
+                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
                                         </v-card-title>
                                         <v-card-text>
                                             <p>Temp: {{weather.temp}}</p>
                                         </v-card-text>
                                     </v-card>
-                                </v-flex>
-                            </v-expansion-panel>
-                        </v-layout>
+                                    </v-flex>
+                                </v-carousel-item>
+                            </v-carousel>
+                        <!-- </v-layout> -->
+                        <!-- <v-layout row> -->
+                            <h1>NextWeek</h1>
+                            <v-carousel style="margin-top:2%">
+                                <v-carousel-item v-for="(page,index) in nextPages" v-bind:key="index">
+                                    <!-- component for this weeks forecast carousel -->
+                                    <!-- component for next weeks forecast carousel-->
+                                    <v-flex v-for="(weather,i) in page" :key="i">
+                                    <v-card>
+                                        <v-card-title primary-title>
+                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <p>Temp: {{weather.temp}}</p>
+                                        </v-card-text>
+                                    </v-card>
+                                    </v-flex>
+                                </v-carousel-item>
+                            </v-carousel>
                     </v-flex>
+                        </v-layout>
+                    <!-- </v-flex> -->
                     <!-- Forecast Section -->
-                </v-layout>
+                <!-- </v-layout> -->
             </v-card>
         </v-container>
         <!-- Simulator Section -->
@@ -105,11 +129,13 @@ export default {
     return{
     info: null,
     temp: 0,
-    selectedForecast: 1,
+    selectedForecast: 0,
     location: "Charlotte, US",
     searchedLocation: "Charlotte, US",
     currentWeather: [],
     forecastArray: [],
+    thisWeek: [],
+    nextWeek: [],
     forecastLocation: "",
     searchOptions: ["Current", "Forecast"],
     searchMethodOptions: ["City", "Voice"],
@@ -120,7 +146,7 @@ export default {
     
     getCurrentWeather: function () {
       this.currentWeather = []
-      var currentWeatherAPI = 'https://api.weatherbit.io/v2.0/current?city=' + localStorage.getItem("location") + '&key=817a04bb05af4998ba8982692cc8a5ef'
+      var currentWeatherAPI = 'https://api.weatherbit.io/v2.0/current?city=' + localStorage.getItem("location") + '&key=86f2b538207d49c7a2168befdb76579a'
       //console.log("current")
       axios.get(currentWeatherAPI).then((response) => {
         //console.log(response.data.data[0])
@@ -129,8 +155,8 @@ export default {
       })
     },
     changeCity: function () {
-      var currentWeatherAPI = 'https://api.weatherbit.io/v2.0/current?city=' + this.location + '&key=817a04bb05af4998ba8982692cc8a5ef'
-      
+      var currentWeatherAPI = 'https://api.weatherbit.io/v2.0/current?city=' + this.location + '&key=86f2b538207d49c7a2168befdb76579a'
+      //spare apikeys: 86f2b538207d49c7a2168befdb76579a, 817a04bb05af4998ba8982692cc8a5ef
       axios.get(currentWeatherAPI).then((response) => {
         localStorage.setItem("location",response.data.data[0].city_name + ", " + response.data.data[0].country_code)
         this.location = localStorage.getItem("location")
@@ -145,18 +171,27 @@ export default {
     },
     getWeatherForecast: function () {
       this.forecastArray = []
+      this.thisWeek = []
+      this.nextWeek = []
       //console.log("forecast")
       this.forecastLocation = localStorage.getItem("location")
-      var forecastWeatherAPI = 'https://api.weatherbit.io/v2.0/forecast/daily?city=' + this.forecastLocation + '&key=817a04bb05af4998ba8982692cc8a5ef'
+      var forecastWeatherAPI = 'https://api.weatherbit.io/v2.0/forecast/daily?city=' + this.forecastLocation + '&key=86f2b538207d49c7a2168befdb76579a'
       axios.get(forecastWeatherAPI).then((response) => {
         var forecastData = response.data.data
         this.location = localStorage.getItem("location")
+        var counter = 0
         forecastData.map((weather) => {
           //console.log(weather)
-
+        if(counter > 0 && counter < 15){
           this.forecastArray.push(weather);
-        });
+        }
+          counter++
+        })
+        
       })
+      setTimeout(() => {
+            this.populateWeeks()
+        }, 200);
     },
     getWeatherInfo: function () {
       
@@ -170,6 +205,19 @@ export default {
       //localStorage.setItem("searchType", event.target.value)
       
 
+    },
+    populateWeeks(){
+        var counter = 0
+        this.forecastArray.map((elem)=>{
+            if(counter < 7){
+            this.thisWeek.push(elem)
+            counter++
+            }
+            else{
+                this.nextWeek.push(elem)
+                counter++
+            }
+        })
     },
     changeToCurrent(){
       this.searchType = "Current"
@@ -210,6 +258,34 @@ export default {
       localStorage.Current = JSON.stringify(newCurrent)
       this.currentWeather = newCurrent
     }
-}
+},
+computed: {
+        cardPages () {
+          let pageSize = 3
+          const pages = []
+          for (let i = 0; i < this.thisWeek.length; i += 2) {
+              if(i < this.thisWeek.length - 1){
+            pages.push(this.thisWeek.slice(i, i + pageSize))
+              }
+            // if (pageSize < 3) {
+            //
+            // }
+          }
+          return pages
+        },
+        nextPages () {
+          let pageSize = 3
+          const pages = []
+          for (let i = 0; i < this.nextWeek.length; i += 2) {
+              if(i < this.nextWeek.length - 1){
+            pages.push(this.nextWeek.slice(i, i + pageSize))
+              }
+            // if (pageSize < 3) {
+            //
+            // }
+          }
+          return pages
+        }
+      }
 }
 </script>

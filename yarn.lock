@@ -1374,10 +1374,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
 
-bootstrap@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
-
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -4810,6 +4806,10 @@ p5@^0.7.2:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/p5/-/p5-0.7.3.tgz#a0660327feb8da3e43359a16ad62566b96a7cabe"
 
+p5@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/p5/-/p5-0.8.0.tgz#af4cd2f25b2e77023dff24d845cbdbdaa47d4fd2"
+
 pako@~1.0.5:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
@@ -6743,7 +6743,7 @@ vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
 
-vuetify-loader@^1.0.5:
+vuetify-loader@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/vuetify-loader/-/vuetify-loader-1.2.2.tgz#7c221dcfd8482344518818d598f9cef8ddd85b6b"
   dependencies:
