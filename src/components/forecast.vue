@@ -17,8 +17,12 @@
 <script>
 export default {
     name: "forecast",
+    data: function(){},
      props: {
         forecastArray: [Object]
+     },
+     created: function(){
+
      }
 }
 </script>

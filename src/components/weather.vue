@@ -47,17 +47,39 @@
                 <v-layout row>
                     <!-- Current Weather Section -->
                     <v-flex pa-6 v-if="this.searchType === 'Current'">
-                        <current v-bind:currentWeather="this.currentWeather"/>
+                        <current v-bind:currentWeather="this.currentWeather[0]"/>
                     </v-flex>
                     <!-- Forecast Section -->
                     <v-flex pa-6 v-else-if="this.searchType === 'Forecast'">
-                        <forecast v-bind:forecastArray="this.forecastArray"/>
+                        <v-layout row>
+                            <v-expansion-panel expand flat class="transparent elevation-0 vuse-expansion">
+                                <v-flex pa-1 v-for="(weather,index) in forecastArray" v-bind:key="index">
+                                    <!-- component for carousel -->
+                                    <!-- component for this weeks forecast -->
+                                    <!-- component for next weeks forecast -->
+                                    <v-card>
+                                        <v-card-title primary-title>
+                                            <h3>{{ searchedLocation }} : {{weather.datetime}}</h3>
+                                        </v-card-title>
+                                        <v-card-text>
+                                            <p>Temp: {{weather.temp}}</p>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-flex>
+                            </v-expansion-panel>
+                        </v-layout>
+
                     </v-flex>
                 </v-layout>
             </v-card>
         </v-container>
         <!-- Simulator Section -->
-      <sim v-bind:currentWeather="this.currentWeather" v-bind:forecastArray="this.forecastArray"/>  
+        <div v-if="this.searchType == 'Current'">
+      <sim v-bind:weather="this.currentWeather[0]"/>
+        </div>
+      <div v-if="this.searchType == 'Forecast'">
+          <sim v-bind:weather="this.forecastArray[selectedForecast]"/>
+      </div>
 </div>
 
 
@@ -68,19 +90,18 @@ import lex from "./lex"
 import axios from "axios"
 import sim from './p5'
 import current from './current'
-import forecast from './forecast'
 export default {
   name: 'weather',
   components :{
     sim,
     lex,
-    current,
-    forecast
+    current
   },
   data: function()  {
     return{
     info: null,
     temp: 0,
+    selectedForecast: 0,
     location: "Charlotte, US",
     searchedLocation: "Charlotte, US",
     currentWeather: [],

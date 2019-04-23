@@ -18,11 +18,16 @@ export default {
         desc: String
     },
     created: function(){
-        var giphySearch = 'https://api.giphy.com/v1/gifs/search?q='+this.desc+'&api_key=LLtGzlJAN6176Sd5eDEJ6rspOnq1maJo&limit=10'
+        var giphySearch = 'https://api.giphy.com/v1/gifs/search?q='+this.desc+'&api_key=LLtGzlJAN6176Sd5eDEJ6rspOnq1maJo&limit=1'
        
        axios.get(giphySearch).then((response) => {
            this.imgRef = response.data.data[0].images.original.url
        })
+    },
+    watch: {
+        desc(newDesc){
+        this.desc = newDesc
+        }
     }
 }
 </script>
