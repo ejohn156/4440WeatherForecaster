@@ -64,14 +64,7 @@
                                     <!-- component for this weeks forecast carousel -->
                                     <!-- component for next weeks forecast carousel-->
                                     <v-flex v-for="(weather,i) in page" :key="i">
-                                    <v-card>
-                                        <v-card-title primary-title>
-                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
-                                        </v-card-title>
-                                        <v-card-text>
-                                            <p>Temp: {{weather.temp}}</p>
-                                        </v-card-text>
-                                    </v-card>
+                                    <forecast v-bind:forecast="weather"/>
                                     </v-flex>
                                 </v-carousel-item>
                             </v-carousel>
@@ -83,14 +76,7 @@
                                     <!-- component for this weeks forecast carousel -->
                                     <!-- component for next weeks forecast carousel-->
                                     <v-flex v-for="(weather,i) in page" :key="i">
-                                    <v-card>
-                                        <v-card-title primary-title>
-                                            <h3>{{ searchedLocation }} : {{weather.datetime}} : index {{index}}</h3>
-                                        </v-card-title>
-                                        <v-card-text>
-                                            <p>Temp: {{weather.temp}}</p>
-                                        </v-card-text>
-                                    </v-card>
+                                    <forecast v-bind:forecast="weather"/>
                                     </v-flex>
                                 </v-carousel-item>
                             </v-carousel>
@@ -118,12 +104,14 @@ import lex from "./lex"
 import axios from "axios"
 import sim from './p5'
 import WeatherContent from './weatherContent'
+import forecast from './forecast'
 export default {
   name: 'weather',
   components :{
     sim,
     lex,
-    WeatherContent
+    WeatherContent,
+    forecast
   },
   data: function()  {
     return{
