@@ -3,7 +3,7 @@
     <v-container grid-list-x1>
             <v-card style="background-color:#1b5e20;">
                 <v-card-title primary-title>
-                    <h1 class="headline mb-0" style="color:gold">Weather Simulation</h1>
+                    <h1 class="headline mb-0" style="color:gold">Weather Simulation {{weather.weather.description}}</h1>
                 </v-card-title>
                     <v-layout row>
                         <v-flex pa-12 style="align-content: center;padding-bottom: 3%">
@@ -21,14 +21,13 @@ export default {
     data: function(){return{weatherData: []}},
     methods: {
         setup(sketch) {
-            sketch.createCanvas(700, 500);
+            sketch.createCanvas(900, 500);
             sketch.background(0);
             
         },
     },
     props: {
-        currentWeather: [Object],
-        forecastArray: [Object]
+        weather: Object,
     },
     components:{
         "vue-p5": vueP5

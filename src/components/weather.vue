@@ -1,32 +1,29 @@
 
 <template>
 <div>
+    <!-- Navigation Bar -->
   <v-toolbar fixed dark color="#1b5e20">
             <v-toolbar-title class="white--text">4440 Weather Forecaster</v-toolbar-title>
 
             <v-toolbar-items>
-                <v-select style="margin-left: 3%;margin-right: 3%;z-index: 0" v-model="searchMethod" box value="City"
+                <v-select style="margin-left: 3%;margin-right: 3%;" v-model="searchMethod" box value="City"
                     v-on:change="onSearchMethodChange" :items="searchMethodOptions">
                 </v-select>
 
                 <div v-if="searchMethod == 'City'">
-                    <div>
-                    <v-text-field style="margin-left: 3%;margin-right: 3%" v-model="location" label="Enter A City"></v-text-field>
-                    </div>
-                <div>
-                    <v-btn flat style="margin-left: 3%;margin-right: 3%;background-color:gold;color:#1b5e20;"
-                        v-on:click="changeCity($event)"><b>Get Weather</b></v-btn>
+                    <v-text-field style="margin-left: 3%;margin-right: 3%;margin-top:13%" v-model="location" label="Enter A City"></v-text-field>
                 </div>
+                <div v-if="searchMethod == 'City'">
+                    <v-btn style="margin-left: 3%;margin-right: 3%;background-color:gold;color:#1b5e20;margin-top:10%;"
+                        v-on:click="changeCity($event)"><b>Get Weather</b></v-btn>
                 </div>
                 <div v-if="searchMethod == 'Voice'">
                       <lex/>
                 </div>
             </v-toolbar-items>
         </v-toolbar>
-
+        <!-- Weather Forecast Content Section -->
         <v-container grid-list-x1 style="margin-top: 5%">
-
-
             <v-card style="background-color:#1b5e20;">
                 <v-layout row>
                     <v-flex pa-6>
@@ -48,24 +45,18 @@
 
                 
                 <v-layout row>
+                    <!-- Current Weather Section -->
                     <v-flex pa-6 v-if="this.searchType === 'Current'">
-                        <v-card>
-                            <v-jumbotron v-for="weather in currentWeather" v-bind:key="weather.datetime">
-                                <v-layout row>
-                                    <v-flex pa-3>
-                                        <h3>Temperature: {{ currentWeather[0].temp }}C</h3>
-                                    </v-flex>
-                                    <v-flex pa-3>
-                                        <h3>Wind Speed: {{currentWeather[0].wind_spd}}MPH</h3>
-                                    </v-flex>
-                                </v-layout>
-                            </v-jumbotron>
-                        </v-card>
+                        <current v-bind:currentWeather="this.currentWeather[0]"/>
                     </v-flex>
+                    <!-- Forecast Section -->
                     <v-flex pa-6 v-else-if="this.searchType === 'Forecast'">
                         <v-layout row>
                             <v-expansion-panel expand flat class="transparent elevation-0 vuse-expansion">
-                                <v-flex pa-1 v-for="weather in forecastArray" v-bind:key="weather.datetime">
+                                <v-flex pa-1 v-for="(weather,index) in forecastArray" v-bind:key="index">
+                                    <!-- component for carousel -->
+                                    <!-- component for this weeks forecast -->
+                                    <!-- component for next weeks forecast -->
                                     <v-card>
                                         <v-card-title primary-title>
                                             <h3>{{ searchedLocation }} : {{weather.datetime}}</h3>
@@ -82,7 +73,13 @@
                 </v-layout>
             </v-card>
         </v-container>
-      <sim v-bind:currentWeather="this.currentWeather" v-bind:forecastArray="this.forecastArray"/>  
+        <!-- Simulator Section -->
+        <div v-if="this.searchType == 'Current'">
+      <sim v-bind:weather="this.currentWeather[0]"/>
+        </div>
+      <div v-if="this.searchType == 'Forecast'">
+          <sim v-bind:weather="this.forecastArray[selectedForecast]"/>
+      </div>
 </div>
 
 
@@ -92,16 +89,19 @@
 import lex from "./lex"
 import axios from "axios"
 import sim from './p5'
+import current from './current'
 export default {
   name: 'weather',
   components :{
     sim,
-    lex
+    lex,
+    current
   },
   data: function()  {
     return{
     info: null,
     temp: 0,
+    selectedForecast: 0,
     location: "Charlotte, US",
     searchedLocation: "Charlotte, US",
     currentWeather: [],
