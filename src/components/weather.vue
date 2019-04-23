@@ -69,13 +69,13 @@
 
         <v-layout row>
           <!-- Current Weather Section -->
-          <v-flex pa-6 v-if="this.searchType === 'Current'" style="text-align:center">
+          <v-flex pa-6 v-if="this.searchType === 'Current'" style="text-align:center;width:80%;margin-left:10%;margin-right:10%">
             <WeatherContent
               v-bind:weather="this.currentWeather[0]"
               v-bind:location="this.location"
             />
           </v-flex>
-          <v-flex pa-6 v-if="this.searchType === 'Forecast'">
+          <v-flex pa-6 v-if="this.searchType === 'Forecast'" style="width:80%;margin-left:10%;margin-right:10%">
             <!-- <WeatherContent v-bind:weather="this.forecastArray[selectedForecast]" v-bind:location="this.location"/> -->
             <v-card>
               <v-responsive style="background-color: #1b5e20" dark>
@@ -91,28 +91,28 @@
                             <v-flex pa-4 v-for="(weather,i) in page" :key="i">
                               <v-card style="background-color:#1b5e20">
                                 <v-card-title primary-title>
-                                  <h3>{{weather.datetime}}</h3>
+                                  <h3 style="color:gold">{{weather.datetime}}</h3>
                                 </v-card-title>
                                 <v-card-text>
                                   <v-layout row>
                                     <v-flex pa-1>
-                                      <p>Description:</p>
+                                      <p style="color:gold">Description:</p>
                                       <br>
-                                      <p>Temperature:</p>
+                                      <p style="color:gold">Temperature:</p>
                                       <br>
-                                      <p>Humidity:</p>
+                                      <p style="color:gold">Humidity:</p>
                                       <br>
-                                      <p>Precipitation:</p>
+                                      <p style="color:gold">Precipitation:</p>
                                       <br>
                                     </v-flex>
                                     <v-flex pa-1>
-                                      <p>{{weather.weather.description}}</p>
+                                      <p style="color:gold">{{weather.weather.description}}</p>
                                       <br>
-                                      <p>{{ Math.floor((weather.temp * 9/5) + 32) }}F</p>
+                                      <p style="color:gold">{{ Math.floor((weather.temp * 9/5) + 32) }}F</p>
                                       <br>
-                                      <p>{{ weather.rh }}%</p>
+                                      <p style="color:gold">{{ weather.rh }}%</p>
                                       <br>
-                                      <p>{{ weather.pop }}%</p>
+                                      <p style="color:gold">{{ weather.pop }}%</p>
                                       <br>
                                     </v-flex>
                                   </v-layout>
@@ -138,28 +138,28 @@
                           <v-flex pa-4 v-for="(weather,i) in page" :key="i">
                             <v-card style="background-color:#1b5e20">
                               <v-card-title primary-title>
-                                <h3>{{weather.datetime}}</h3>
+                                <h3 style="color:gold">{{weather.datetime}}</h3>
                               </v-card-title>
                               <v-card-text>
                                   <v-layout row>
                                     <v-flex pa-1>
-                                      <p>Description:</p>
+                                      <p style="color:gold">Description:</p>
                                       <br>
-                                      <p>Temperature:</p>
+                                      <p style="color:gold">Temperature:</p>
                                       <br>
-                                      <p>Humidity:</p>
+                                      <p style="color:gold">Humidity:</p>
                                       <br>
-                                      <p>Precipitation:</p>
+                                      <p style="color:gold">Precipitation:</p>
                                       <br>
                                     </v-flex>
                                     <v-flex pa-1>
-                                      <p>{{weather.weather.description}}</p>
+                                      <p style="color:gold">{{weather.weather.description}}</p>
                                       <br>
-                                      <p>{{ Math.floor((weather.temp * 9/5) + 32) }}F</p>
+                                      <p style="color:gold">{{ Math.floor((weather.temp * 9/5) + 32) }}F</p>
                                       <br>
-                                      <p>{{ weather.rh }}%</p>
+                                      <p style="color:gold">{{ weather.rh }}%</p>
                                       <br>
-                                      <p>{{ weather.pop }}%</p>
+                                      <p style="color:gold">{{ weather.pop }}%</p>
                                       <br>
                                     </v-flex>
                                   </v-layout>
@@ -376,3 +376,7 @@ export default {
   }
 };
 </script>
+<style>
+
+</style>
+
