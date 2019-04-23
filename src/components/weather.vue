@@ -28,7 +28,12 @@
                 <v-layout row>
                     <v-flex pa-6>
                         <v-card-title primary-title>
-                            <h1 class="headline mb-0" style="color:gold">{{ searchedLocation }}</h1>
+                            <div class="text-xs-center" v-if="this.searchType === 'Current'">
+                            <h1 class="headline mb-0" style="color:gold">Current Weather in {{ searchedLocation }}</h1>
+                            </div>
+                            <div class="text-xs-center" v-if="this.searchType === 'Forecast'">
+                                <h1 class="headline mb-0" style="color:gold">{{this.forecastArray[selectedForecast].datetime}} Forecast in {{ searchedLocation }}</h1>
+                            </div>
                         </v-card-title>
                     </v-flex>
                     <v-flex pa-6>
@@ -46,17 +51,16 @@
                 
                 <v-layout row>
                     <!-- Current Weather Section -->
-                    <v-flex pa-6 v-if="this.searchType === 'Current'">
-                        <current v-bind:currentWeather="this.currentWeather[0]"/>
+                    <v-flex pa-6 v-if="this.searchType === 'Current'" style="text-align:center">
+                        <WeatherContent v-bind:weather="this.currentWeather[0]" v-bind:location="this.location"/>
                     </v-flex>
-                    <!-- Forecast Section -->
-                    <v-flex pa-6 v-else-if="this.searchType === 'Forecast'">
+                    <v-flex pa-6 v-if="this.searchType === 'Forecast'" style="text-align:center">
+                        <WeatherContent v-bind:weather="this.forecastArray[selectedForecast]" v-bind:location="this.location"/>
                         <v-layout row>
                             <v-expansion-panel expand flat class="transparent elevation-0 vuse-expansion">
                                 <v-flex pa-1 v-for="(weather,index) in forecastArray" v-bind:key="index">
-                                    <!-- component for carousel -->
-                                    <!-- component for this weeks forecast -->
-                                    <!-- component for next weeks forecast -->
+                                    <!-- component for this weeks forecast carousel -->
+                                    <!-- component for next weeks forecast carousel-->
                                     <v-card>
                                         <v-card-title primary-title>
                                             <h3>{{ searchedLocation }} : {{weather.datetime}}</h3>
@@ -68,14 +72,14 @@
                                 </v-flex>
                             </v-expansion-panel>
                         </v-layout>
-
                     </v-flex>
+                    <!-- Forecast Section -->
                 </v-layout>
             </v-card>
         </v-container>
         <!-- Simulator Section -->
         <div v-if="this.searchType == 'Current'">
-      <sim v-bind:weather="this.currentWeather[0]"/>
+      <sim v-bind:weather="this.currentWeather[0]" />
         </div>
       <div v-if="this.searchType == 'Forecast'">
           <sim v-bind:weather="this.forecastArray[selectedForecast]"/>
@@ -89,13 +93,13 @@
 import lex from "./lex"
 import axios from "axios"
 import sim from './p5'
-import current from './current'
+import WeatherContent from './weatherContent'
 export default {
   name: 'weather',
   components :{
     sim,
     lex,
-    current
+    WeatherContent
   },
   data: function()  {
     return{
@@ -179,10 +183,11 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     localStorage.setItem("location", "Charlotte, US")
     localStorage.setItem("searchType", "Current")
     this.getWeatherInfo()
+    this.getWeatherForecast()
   },
   watch: {
     location(newLocation) {
