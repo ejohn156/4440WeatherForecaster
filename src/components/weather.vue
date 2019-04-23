@@ -105,7 +105,7 @@ export default {
     return{
     info: null,
     temp: 0,
-    selectedForecast: 0,
+    selectedForecast: 1,
     location: "Charlotte, US",
     searchedLocation: "Charlotte, US",
     currentWeather: [],
