@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "add": "^2.0.6",
+    "aws-amplify": "^1.1.26",
+    "aws-amplify-vue": "^0.2.9",
     "axios": "^0.18.0",
     "core-js": "^2.6.5",
     "p5": "^0.8.0",
@@ -17,7 +19,11 @@
     "vue-p5-component": "^1.0.4",
     "vuetify": "^1.5.5",
     "vuetify-loader": "^1.2.2",
-    "yarn": "^1.15.2"
+    "yarn": "^1.15.2",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "copy-webpack-plugin": "^4.5.2",
+    "webpack-dev-server": "^3.1.5"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.6.0",
@@ -56,3 +62,4 @@
     "not ie <= 8"
   ]
 }
+
