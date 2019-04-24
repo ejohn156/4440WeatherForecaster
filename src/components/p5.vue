@@ -6,63 +6,104 @@
           <h1
             class="headline mb-0"
             style="color:gold"
-          >Weather Simulation {{weather.weather.description}}</h1>
-        </v-card-title>
+          >Weather Simulation Precip: {{precip}} Temp: {{temp}} cloudCoverage: {{cloudCoverage}} Description:{{weather.weather.description}} </h1>
+       </v-card-title> 
         <v-layout row>
-          <v-flex pa-12 style="align-content: center;padding-bottom: 3%">
-            <vue-p5 v-on="this" style="margin-left: 8%" class="justify-center"></vue-p5>
-          </v-flex>
+    <vue-p5 
+        v-on:sketch="sketch"
+        v-on:setup="setup" 
+        v-on:draw="draw"
+        v-on:keypressed="keyPressed"
+        v-on:mousemoved="mouseMoved"
+        v-on:mousedragged="mouseDragged"
+        style="margin-left:10%;margin-bottom: 4%">
+    </vue-p5>
+    <p>
+      Red: {{ red }} <br/>
+      Green: {{ green }} <br/>
+      Blue: {{ blue }} <br/>
+    </p>
+    <p>
+      Press <button v-on:click="toggleRed()">button</button> to toggle red color <br/>
+      Press <code>g</code> to toggle green color <br/>
+      Use mouse to draw lines <br/>
+    </p>
         </v-layout>
       </v-card>
     </v-container>
+
   </div>
 </template>
+
 <script>
-import vueP5 from "vue-p5";
+import VueP5 from "vue-p5";
 export default {
   name: "sim",
-  data: function(){
-      return{
-          temperature: 0
-      }
+  components: {
+    "vue-p5": VueP5
   },
+  data: () => ({
+    red: 255,
+    green: 0,
+    blue: 0,
+    lines: [],
+    temperature: 0
+  }),
   methods: {
+    sketch(sketch) {
+      sketch.draw = () => {
+        this.blue = (this.blue + 3) % 255;
+        const { red, green, blue } = this;
+        sketch.background(red, green, blue);
+      };
+    },
     setup(sketch) {
-        //const clicks = [];
-      sketch.createCanvas(900, 500);
-      
-
-      if(this.temp <= 0){
-          sketch.background(165, 242, 243);
+      sketch.createCanvas(850, 400);
+    },
+    draw(sketch) {
+      const { width, height } = sketch;
+      sketch.image(this.backgroundImage, 0, 0, 0.5 * width, 0.5 * height);
+      for (let line of this.lines) {
+        sketch.stroke(line.color);
+        sketch.line(line.pmouseX, line.pmouseY, line.mouseX, line.mouseY);
       }
-      else if(this.temp > 0){
-          sketch.background(255,255,0)
+    },
+    keyPressed({ keyCode }) {
+      // 'g' key
+      if (keyCode === 71) {
+        this.toggleGreen();
       }
-    //   sketch.mouseClicked = () => {
-    //     // save clicks to array
-    //     clicks.push({ x: sketch.mouseX, y: sketch.mouseY });
-    //   };
-
-    //   sketch.draw = () => {
-    //     // draw a circle around each clicked position
-    //     clicks.forEach(({ x, y }) => {
-    //       sketch.ellipse(x, y, 10, 10);
-    //     });
-    //   };
+    },
+    mouseMoved({ mouseX, mouseY, pmouseX, pmouseY }) {
+      this.pushLine({ mouseX, mouseY, pmouseX, pmouseY, color: 0 });
+    },
+    mouseDragged({ mouseX, mouseY, pmouseX, pmouseY }) {
+      this.pushLine({ mouseX, mouseY, pmouseX, pmouseY, color: 255 });
+    },
+    toggleRed() {
+      this.red = 255 - this.red;
+    },
+    toggleGreen() {
+      this.green = 255 - this.green;
+    },
+    pushLine(line) {
+      let lines = this.lines;
+      lines.push(line);
+      this.lines = lines.slice(-100);
     }
-    // setBackground(){
-    //     if()
-    // }
+  },
+  mounted(){
+    this.setup
+    this.temperature = this.props.temp
   },
   props: {
     weather: Object,
-    temp: String
-  },
-  created(){
-      this.temperature = this.props.temp
-  },
-  components: {
-    "vue-p5": vueP5
+    temp: Float32Array,
+    precip: Float32Array,
+    cloudCoverage: Float32Array
   }
 };
 </script>
+
+
+

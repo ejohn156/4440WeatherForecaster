@@ -182,7 +182,12 @@
     </v-container>
     <!-- Simulator Section -->
 
-      <sim v-bind:weather="this.currentWeather[0]" v-bind:temp="this.currentWeather[0].temp"/>
+      <sim
+      v-bind:weather="this.currentWeather[0]" 
+      v-bind:temp="this.currentWeather[0].temp" 
+      v-bind:precip="this.currentWeather[0].precip"
+      v-bind:cloudCoverage="this.currentWeather[0].clouds"
+      />
 
   </div>
 </template>
