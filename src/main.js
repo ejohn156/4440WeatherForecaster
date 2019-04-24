@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-// import AsyncComputed from 'vue-async-computed'
+import Amplify, * as AmplifyModules from 'aws-amplify'
+import { AmplifyPlugin } from 'aws-amplify-vue'
+import awsmobile from './aws-exports'
+Amplify.configure(awsmobile)
 
-// Vue.use(AsyncComputed);
+Vue.use(AmplifyPlugin, AmplifyModules)
 
 Vue.config.productionTip = false
 
