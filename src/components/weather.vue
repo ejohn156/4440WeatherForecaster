@@ -181,12 +181,9 @@
       </v-card>
     </v-container>
     <!-- Simulator Section -->
-    <div v-if="this.searchType == 'Current'">
-      <sim v-bind:weather="this.currentWeather[0]"/>
-    </div>
-    <div v-if="this.searchType == 'Forecast'">
-      <sim v-bind:weather="this.forecastArray[selectedForecast]"/>
-    </div>
+
+      <sim v-bind:weather="this.currentWeather[0]" v-bind:temp="this.currentWeather[0].temp"/>
+
   </div>
 </template>
 
