@@ -6,16 +6,12 @@
           <h1
             class="headline mb-0"
             style="color:gold"
-          >Weather Simulation Precip: {{precip}} Temp: {{temp}} cloudCoverage: {{cloudCoverage}} Description:{{weather.weather.description}} </h1>
+          >Weather Simulation Precip: {{precip}} Temp: {{this.temperature}} cloudCoverage: {{cloudCoverage}} Description:{{weather.weather.description}} </h1>
        </v-card-title> 
         <v-layout row>
     <vue-p5 
         v-on:sketch="sketch"
         v-on:setup="setup" 
-        v-on:draw="draw"
-        v-on:keypressed="keyPressed"
-        v-on:mousemoved="mouseMoved"
-        v-on:mousedragged="mouseDragged"
         style="margin-left:10%;margin-bottom: 4%">
     </vue-p5>
     <p>
@@ -42,13 +38,24 @@ export default {
   components: {
     "vue-p5": VueP5
   },
+  props: {
+    weather: Object,
+    temp: Number,
+    precip: Number,
+    cloudCoverage: Number
+  },
   data: () => ({
     red: 255,
     green: 0,
     blue: 0,
     lines: [],
-    temperature: 0
+    temperature: 0,
+    precipitationRate: 0,
+    clouds: 0
   }),
+  mounted(){
+    this.setup
+  },
   methods: {
     sketch(sketch) {
       sketch.draw = () => {
@@ -60,48 +67,9 @@ export default {
     setup(sketch) {
       sketch.createCanvas(850, 400);
     },
-    draw(sketch) {
-      const { width, height } = sketch;
-      sketch.image(this.backgroundImage, 0, 0, 0.5 * width, 0.5 * height);
-      for (let line of this.lines) {
-        sketch.stroke(line.color);
-        sketch.line(line.pmouseX, line.pmouseY, line.mouseX, line.mouseY);
-      }
-    },
-    keyPressed({ keyCode }) {
-      // 'g' key
-      if (keyCode === 71) {
-        this.toggleGreen();
-      }
-    },
-    mouseMoved({ mouseX, mouseY, pmouseX, pmouseY }) {
-      this.pushLine({ mouseX, mouseY, pmouseX, pmouseY, color: 0 });
-    },
-    mouseDragged({ mouseX, mouseY, pmouseX, pmouseY }) {
-      this.pushLine({ mouseX, mouseY, pmouseX, pmouseY, color: 255 });
-    },
-    toggleRed() {
-      this.red = 255 - this.red;
-    },
-    toggleGreen() {
-      this.green = 255 - this.green;
-    },
-    pushLine(line) {
-      let lines = this.lines;
-      lines.push(line);
-      this.lines = lines.slice(-100);
-    }
+
   },
-  mounted(){
-    this.setup
-    this.temperature = this.props.temp
-  },
-  props: {
-    weather: Object,
-    temp: Float32Array,
-    precip: Float32Array,
-    cloudCoverage: Float32Array
-  }
+  
 };
 </script>
 
