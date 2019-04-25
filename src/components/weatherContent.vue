@@ -3,23 +3,23 @@
     <v-responsive style="background-color: gold" dark>
       <v-layout row>
         <v-flex pa-1>
-            <h1>Description: {{weather.weather.description}}</h1>        
+            <h1 tabindex = "0">Description: {{weather.weather.description}}</h1>        
           <br>
-          <h1>Temperature: {{ Math.floor((weather.temp * 9/5) + 32) }}F</h1>
+          <h1 tabindex = "0">Temperature: {{ Math.floor((weather.temp * 9/5) + 32) }}F</h1>
           <br>
-            <h1>Humidity: {{ weather.rh }}%</h1>
+            <h1 tabindex = "0">Humidity: {{ weather.rh }}%</h1>
             <br>
-            <h1>Cloud Coverage: {{ weather.clouds }}%</h1>
+            <h1 tabindex = "0">Cloud Coverage: {{ weather.clouds }}%</h1>
             <br>
         </v-flex>
         <v-flex pa-1>
-          <h1>Wind Speed: {{weather.wind_spd}}MPH</h1>
+          <h1 tabindex = "0">Wind Speed: {{weather.wind_spd}}MPH</h1>
           <br>
-          <h1>Wind Direction: {{weather.wind_cdir_full}}</h1>
+          <h1 tabindex = "0">Wind Direction: {{weather.wind_cdir_full}}</h1>
           <br>
-          <h1>Visibility: {{weather.vis * 1.60934}}Miles</h1>
+          <h1 tabindex = "0">Visibility: {{weather.vis * 1.60934}}Miles</h1>
           <br>
-          <h1>UV: {{weather.uv}}</h1>
+          <h1 tabindex = "0">UV: {{weather.uv}}</h1>
           <br>
         </v-flex>
         <!-- <v-flex>
